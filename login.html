@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Luxury Travel – Đăng nhập</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #001F3F, #0077B6, #0096C7, #48CAE4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Segoe UI", sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* 🪄 ÁNH SÁNG CHUYỂN ĐỘNG */
+    .glow-bg {
+      position: absolute;
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(255,215,100,0.28), rgba(255,150,50,0.25), transparent 70%);
+      animation: glowMove 13s infinite linear;
+      filter: blur(55px);
+    }
+
+    @keyframes glowMove {
+      0%   { transform: translate(-200px, -200px); opacity: 0.6; }
+      25%  { transform: translate(250px, -150px); opacity: 0.8; }
+      50%  { transform: translate(300px, 250px); opacity: 0.65; }
+      75%  { transform: translate(-250px, 200px); opacity: 0.75; }
+      100% { transform: translate(-200px, -200px); opacity: 0.6; }
+    }
+
+    /* HỘP LOGIN GLASS */
+    .login-box {
+      background: rgba(255, 255, 255, 0.10);
+      padding: 45px;
+      border-radius: 20px;
+      width: 380px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      backdrop-filter: blur(15px);
+      animation: fadeIn 0.8s ease forwards;
+      border: 1px solid rgba(255,255,255,0.24);
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LOGO LUXURY TRAVEL */
+    .logo {
+      width: 160px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 10px rgba(255,235,150,0.75));
+      animation: logoPulse 4s infinite ease-in-out;
+    }
+
+    @keyframes logoPulse {
+      0%   { transform: scale(1);   opacity: 0.85; }
+      50%  { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1);   opacity: 0.85; }
+    }
+
+    h2 {
+      margin-bottom: 22px;
+      font-weight: 700;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: #ffe7b0;
+      text-shadow: 0 0 10px rgba(255,235,150,0.5);
+    }
+
+    label {
+      font-size: 14px;
+      text-align: left;
+      width: 100%;
+      display: block;
+      margin-bottom: 6px;
+      color: #e6f7ff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255,255,255,0.25);
+      color: white;
+      font-size: 15px;
+      margin-bottom: 18px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input::placeholder { color: #e0f2ff; }
+
+    input:focus {
+      background: rgba(255,255,255,0.35);
+      box-shadow: 0 0 10px rgba(255,255,255,0.4);
+    }
+
+    /* BUTTON */
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, #ffd18a, #ffb15a);
+      color: #000;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.25s;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255,180,80,0.45);
+    }
+
+    .error {
+      color: #ff8080;
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="glow-bg"></div>
+
+  <div class="login-box">
+
+    <!-- LOGO LUXURY TRAVEL -->
+    <img src="luxury-logo.png" class="logo" alt="Luxury Travel Logo">
+
+    <h2>Welcome to Luxury Travel</h2>
+
+    <form method="POST" action="/login">
+
+      <label>Tên đăng nhập</label>
+      <input type="text" name="username" placeholder="Nhập tên đăng nhập">
+
+      <label>Mật khẩu</label>
+      <input type="password" name="password" placeholder="Nhập mật khẩu">
+
+      <button type="submit">Đăng nhập</button>
+
+      <div class="error">
+        <script>
+          document.write(new URLSearchParams(window.location.search).get("msg") || "");
+        </script>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
