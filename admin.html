@@ -3,166 +3,244 @@
 <head>
   <meta charset="UTF-8" />
   <title>Luxury Travel – Admin Panel</title>
-
-  <!-- Quill Editor -->
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
-
   <style>
     * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #001F3F, #0077B6, #0096C7, #48CAE4);
-      color: #ffffff;
+      margin:0;
+      height:100vh;
+      display:flex;
+      font-family:"Segoe UI",sans-serif;
+      background:linear-gradient(135deg,#001F3F,#0077B6,#0096C7,#48CAE4);
+      color:#ffffff;
     }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 230px;
-      background: rgba(0, 10, 30, 0.92);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid rgba(255,255,255,0.15);
+    .sidebar{
+      width:230px;
+      background:rgba(0,10,30,0.9);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      border-right:1px solid rgba(255,255,255,0.15);
     }
-
-    .brand {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 30px;
-      color: #ffdca0;
-      letter-spacing: 1px;
+    .brand{
+      font-size:20px;
+      font-weight:700;
+      margin-bottom:30px;
+      color:#ffdca0;
+      letter-spacing:1px;
     }
-
-    .nav-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 8px;
+    .nav-title{
+      font-size:13px;
+      text-transform:uppercase;
+      opacity:0.7;
+      margin-bottom:8px;
     }
-
-    .menu-item {
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      color: #e0f4ff;
-      transition: 0.2s;
+    .menu-item{
+      padding:10px 12px;
+      border-radius:10px;
+      margin-bottom:6px;
+      cursor:pointer;
+      font-size:14px;
+      color:#e0f4ff;
+      transition:0.2s;
     }
-
     .menu-item.active,
-    .menu-item:hover {
-      background: linear-gradient(135deg, #ffd18a, #ffb15a);
-      color: #000;
-      box-shadow: 0 4px 10px rgba(255, 180, 80, 0.4);
+    .menu-item:hover{
+      background:linear-gradient(135deg,#ffd18a,#ffb15a);
+      color:#000;
+      box-shadow:0 4px 10px rgba(255,180,80,0.4);
     }
+    .logout{ margin-top:auto; font-size:14px; }
+    .logout a{ color:#ffb1a1; text-decoration:none; }
+    .logout a:hover{ text-decoration:underline; }
 
-    .logout { margin-top: auto; }
-    .logout a { color: #ffb1a1; text-decoration: none; }
-    .logout a:hover { text-decoration: underline; }
-
-    /* MAIN CONTENT */
-    .main {
-      flex: 1;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
+    .main{
+      flex:1;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
     }
-
-    .glow-bg {
-      position: absolute;
-      width: 900px;
-      height: 900px;
-      background: radial-gradient(circle,
+    .glow-bg{
+      position:absolute;
+      width:900px; height:900px;
+      background:radial-gradient(circle,
         rgba(255,215,100,0.28),
         rgba(255,150,50,0.22),
         transparent 70%);
-      animation: glowMove 14s infinite linear;
-      filter: blur(60px);
+      animation:glowMove 14s infinite linear;
+      filter:blur(60px);
+      z-index:0;
+    }
+    @keyframes glowMove{
+      0%{ transform:translate(-220px,-200px); opacity:.6; }
+      25%{ transform:translate(260px,-120px); opacity:.8; }
+      50%{ transform:translate(320px,260px); opacity:.65; }
+      75%{ transform:translate(-250px,260px); opacity:.75; }
+      100%{ transform:translate(-220px,-200px); opacity:.6; }
+    }
+    .card{
+      position:relative;
+      z-index:1;
+      background:rgba(255,255,255,0.12);
+      padding:28px 30px;
+      border-radius:20px;
+      backdrop-filter:blur(14px);
+      box-shadow:0 8px 25px rgba(0,0,0,0.45);
+      border:1px solid rgba(255,255,255,0.26);
+      width:720px;
+      max-height:90vh;
+      overflow:auto;
+    }
+    h1{
+      margin-top:0;
+      margin-bottom:10px;
+      font-size:26px;
+      color:#ffe7b0;
+      text-shadow:0 0 10px rgba(255,235,150,0.5);
+    }
+    .subtitle{
+      font-size:13px;
+      opacity:0.85;
+      margin-bottom:18px;
+    }
+    label{
+      font-size:14px;
+      margin-bottom:6px;
+      display:block;
+      color:#eaf8ff;
+      font-weight:500;
+    }
+    input[type="text"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:none;
+      background:rgba(255,255,255,0.25);
+      color:#003a57;
+      font-size:15px;
+      margin-bottom:16px;
+      outline:none;
+      transition:0.2s;
+    }
+    input[type="text"]:focus{
+      background:rgba(255,255,255,0.9);
+      box-shadow:0 0 8px rgba(255,255,255,0.4);
     }
 
-    @keyframes glowMove {
-      0%   { transform: translate(-220px, -200px); opacity: .6; }
-      25%  { transform: translate(260px, -120px); opacity: .8; }
-      50%  { transform: translate(320px, 260px); opacity: .65; }
-      75%  { transform: translate(-250px, 260px); opacity: .75; }
-      100% { transform: translate(-220px, -200px); opacity: .6; }
+    #editor{
+      background:#ffffff;
+      color:#000;
+      border-radius:10px;
+      min-height:160px;
+    }
+    .ql-toolbar.ql-snow{ border-radius:10px 10px 0 0; }
+    .ql-container.ql-snow{
+      border-radius:0 0 10px 10px;
+      border-bottom:none;
+      min-height:160px;
+    }
+    .section{ margin-bottom:20px; }
+
+    .image-row{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .image-preview{
+      width:180px; height:110px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.4);
+      background:rgba(0,0,0,0.15);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      color:#f0f8ff;
+    }
+    .image-preview img{
+      width:100%; height:100%; object-fit:cover;
+    }
+    input[type="file"]{ color:#eaf8ff; font-size:13px; }
+
+    .actions{ margin-top:20px; text-align:right; }
+    button.save-btn{
+      padding:12px 26px;
+      background:linear-gradient(135deg,#ffd18a,#ffb15a);
+      border:none;
+      border-radius:12px;
+      font-size:16px;
+      font-weight:600;
+      cursor:pointer;
+      color:#000;
+      transition:0.25s;
+    }
+    button.save-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 18px rgba(255,180,80,0.45);
     }
 
-    .card {
-      position: relative;
-      z-index: 1;
-      background: rgba(255,255,255,0.12);
-      padding: 28px 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.26);
-      width: 720px;
-      max-height: 90vh;
-      overflow: auto;
+    .password-overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
     }
-
-    label { font-size: 14px; margin-bottom: 6px; display: block; }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: none;
-      background: rgba(255,255,255,0.25);
-      color: #003a57;
-      font-size: 15px;
-      margin-bottom: 16px;
-      outline: none;
+    .password-box{
+      background:rgba(0,0,0,0.85);
+      padding:24px 28px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.3);
+      width:320px;
+      text-align:center;
     }
-
-    /* Preview ảnh */
-    .image-preview {
-      width: 180px;
-      height: 110px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 12px;
+    .password-box h2{ margin-bottom:10px; }
+    .password-box input{
+      width:100%;
+      padding:9px 10px;
+      border-radius:8px;
+      border:none;
+      margin:10px 0 16px;
     }
-    .image-preview img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* SAVE BTN */
-    button.save-btn {
-      padding: 12px 26px;
-      background: linear-gradient(135deg, #ffd18a, #ffb15a);
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      font-weight: 600;
-      color: #000;
+    .password-box button{
+      padding:8px 18px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(135deg,#ffd18a,#ffb15a);
+      font-weight:600;
+    }
+    .json-output{
+      margin-top:15px;
+      font-size:12px;
+      color:#f5f5f5;
+    }
+    .json-output textarea{
+      width:100%;
+      height:120px;
+      border-radius:8px;
+      border:none;
+      padding:8px;
+      font-family:monospace;
+      font-size:11px;
+      resize:vertical;
     }
   </style>
 </head>
-
 <body>
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="brand">Luxury Travel Admin</div>
-
     <div class="nav-title">Danh mục</div>
     <div class="menu-item active">Nội dung trang chủ</div>
-
     <div class="logout">
-      <a href="/logout">Đăng xuất</a>
+      <a href="/">← Về trang chủ</a>
     </div>
   </div>
 
@@ -172,82 +250,137 @@
 
     <div class="card">
       <h1>Nội dung trang chủ</h1>
+      <div class="subtitle">
+        Chỉnh sửa tiêu đề, mô tả giới thiệu và ảnh banner.  
+        Sau khi bấm <b>Lưu nội dung</b>, hãy copy đoạn JSON và dán vào file <code>content.json</code> rồi commit lên GitHub.
+      </div>
 
-      <!-- TIÊU ĐỀ -->
-      <label>Tiêu đề:</label>
-      <input type="text" id="title" />
+      <div class="section">
+        <label for="title">Tiêu đề trang:</label>
+        <input type="text" id="title" placeholder="Ví dụ: Khám phá thế giới theo cách thượng lưu" />
+      </div>
 
-      <!-- MÔ TẢ -->
-      <label>Mô tả giới thiệu:</label>
-      <div id="toolbar"></div>
-      <div id="editor"></div>
+      <div class="section">
+        <label>Mô tả giới thiệu (hiển thị trên trang chủ):</label>
+        <div id="toolbar"></div>
+        <div id="editor"></div>
+      </div>
 
-      <!-- ẢNH -->
-      <label style="margin-top: 15px;">Ảnh banner:</label>
-      <div class="image-preview" id="preview">Chưa có ảnh</div>
-      <input type="file" id="imageInput" accept="image/*" style="margin-top:10px" />
+      <div class="section">
+        <label>Ảnh banner trang chủ (tour / resort):</label>
+        <div class="image-row">
+          <div class="image-preview" id="preview">Chưa có ảnh</div>
+          <div>
+            <input type="file" id="imageInput" accept="image/*" /><br/>
+            <small>Chọn ảnh đẹp (biển, resort, skyline...) để làm banner chính. Ảnh sẽ được encode base64 lưu trong <code>content.json</code>.</small>
+          </div>
+        </div>
+      </div>
 
-      <div style="text-align:right; margin-top:20px;">
-        <button class="save-btn" onclick="saveContent()">Lưu nội dung</button>
+      <div class="actions">
+        <button class="save-btn" type="button" onclick="saveContent()">Lưu nội dung</button>
+      </div>
+
+      <div class="json-output" id="jsonOutput" style="display:none;">
+        <p>Sao chép toàn bộ nội dung dưới đây dán vào file <code>content.json</code> rồi commit lên GitHub:</p>
+        <textarea id="jsonText" readonly></textarea>
+      </div>
+    </div>
+
+    <!-- LỚP MẬT KHẨU -->
+    <div class="password-overlay" id="pwOverlay">
+      <div class="password-box">
+        <h2>Đăng nhập Admin</h2>
+        <p>Nhập mật khẩu quản trị để chỉnh sửa nội dung.</p>
+        <input type="password" id="pwInput" placeholder="Mật khẩu Admin" />
+        <button onclick="checkPassword()">Đăng nhập</button>
+        <div id="pwError" style="margin-top:10px;color:#ffb1a1;font-size:13px;"></div>
       </div>
     </div>
   </div>
 
-  <!-- QUILL JS -->
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
   <script>
-    let quill = new Quill("#editor", {
-      theme: "snow",
-      placeholder: "Nhập mô tả...",
-    });
+    // ==== MẬT KHẨU ADMIN – chỉ kiểm tra phía client ====
+    const ADMIN_PASSWORD = "888888"; // Tiến sĩ có thể đổi
 
-    let bannerBase64 = "";
-
-    // LOAD CONTENT
-    async function loadContent() {
-      const res = await fetch("/content");
-      const data = await res.json();
-
-      document.getElementById("title").value = data.title || "";
-      quill.root.innerHTML = data.description || "";
-
-      if (data.image) {
-        bannerBase64 = data.image;
-        document.getElementById("preview").innerHTML =
-          `<img src="${bannerBase64}" />`;
+    function checkPassword(){
+      const val = document.getElementById("pwInput").value;
+      if (val === ADMIN_PASSWORD){
+        document.getElementById("pwOverlay").style.display = "none";
+      } else {
+        document.getElementById("pwError").textContent = "Mật khẩu không đúng.";
       }
     }
-    loadContent();
 
-    // UPLOAD BASE64 PREVIEW
-    document.getElementById("imageInput").addEventListener("change", function () {
-      let file = this.files[0];
+    let quill;
+    let bannerBase64 = "";
+
+    // Khởi tạo Quill
+    quill = new Quill("#editor", {
+      theme:"snow",
+      placeholder:"Viết đoạn giới thiệu sang trọng...",
+      modules:{
+        toolbar:[
+          [{ "header":[1,2,3,false] }],
+          ["bold","italic","underline"],
+          [{ "list":"ordered" }, { "list":"bullet" }],
+          ["link"],
+          [{ "align":[] }],
+          ["clean"]
+        ]
+      }
+    });
+
+    // Load content.json hiện có (nếu chạy localhost hoặc sau khi build lên Vercel)
+    fetch("/content.json")
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (!data) return;
+        document.getElementById("title").value = data.title || "";
+        quill.root.innerHTML = data.description || "";
+
+        if (data.image){
+          bannerBase64 = data.image;
+          const preview = document.getElementById("preview");
+          preview.innerHTML = "";
+          const img = document.createElement("img");
+          img.src = bannerBase64;
+          preview.appendChild(img);
+        }
+      })
+      .catch(() => { /* im lặng, không sao */ });
+
+    // Upload ảnh -> base64
+    document.getElementById("imageInput").addEventListener("change", function (){
+      const file = this.files[0];
       if (!file) return;
-
-      let reader = new FileReader();
-      reader.onload = function (e) {
+      const reader = new FileReader();
+      reader.onload = function(e){
         bannerBase64 = e.target.result;
-        document.getElementById("preview").innerHTML = `<img src="${bannerBase64}" />`;
+        const preview = document.getElementById("preview");
+        preview.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = bannerBase64;
+        preview.appendChild(img);
       };
       reader.readAsDataURL(file);
     });
 
-    // SAVE CONTENT
-    async function saveContent() {
-      const payload = {
-        title: document.getElementById("title").value,
-        description: quill.root.innerHTML,
-        image: bannerBase64
+    function saveContent(){
+      const title = document.getElementById("title").value.trim();
+      const descriptionHtml = quill.root.innerHTML;
+
+      const obj = {
+        title: title || "Hành trình du lịch đẳng cấp thế giới",
+        description: descriptionHtml,
+        image: bannerBase64 || ""
       };
 
-      await fetch("/content", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      alert("Đã lưu nội dung thành công!");
+      const jsonStr = JSON.stringify(obj, null, 2);
+      document.getElementById("jsonOutput").style.display = "block";
+      document.getElementById("jsonText").value = jsonStr;
+      alert("Đã sinh JSON. Hãy copy nội dung ở dưới và dán vào file content.json.");
     }
   </script>
 </body>
